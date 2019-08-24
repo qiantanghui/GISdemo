@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>楚雄教育体育GIS系统</title>
+    <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link href="../css/pretty.css" rel="stylesheet">
+    <script src = '../js/jquery.min.3.2.1.js'></script>
+    <script src="../js/echarts.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/slider.js"></script>
+	<script type="text/javascript" src="../js/require.min.js" data-main="../js/main"></script>
+
+    <style>
+       .left_content{
+           /*border:#06C 2px solid;*/
+           position:fixed;
+           width:20%;
+           height:100%;
+           z-index:100;
+           top: 0px;
+           left:0px;
+           text-align:center;
+           background-color:rgba(0,0,0,0.3);
+       }
+        .right_content{
+            /*border:#06C 2px solid;*/
+            position:fixed;
+            width:20%;
+            height:100%;
+            z-index:100;
+            top: 0px;
+            right:0px;
+            text-align:center;
+            background-color:rgba(0,0,0,0.3);
+        }
+        .label_head{
+            font-size: 20px;
+            font-family: \@微软雅黑;
+            font-weight: 800;
+            color: #ffffff;
+            width: 100%;
+
+        }
+        p{
+            color: #8CD4F5;
+            font-size: 16px;
+            text-align: left;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .chart_div{
+            height:24%;
+            width:100%;
+            border-top: solid 4px #8CD4F5;
+        }
+        .curve{
+            width:100%;
+            height:95%;
+            padding-top:10px;
+        }
+    </style>
+</head>
+<body>
+<div id="left_zj" class="left_content" >
+<label class="label_head">教育概况</label>
+    <!--<p>
+        &nbsp;&nbsp;&nbsp;&nbsp;2017/2018学年全州有全日制各类学校1416所（不含教学点），其中：普通高校2所（其中：本科、专科院校各1所）；中等职业学校25所(其中：中等技术学校5所，成人中等专业学校10所，职业高中学校10所)；技师学院（技工学校）1所；普通高（完）中22所（其中：高级中学8所，完全中学14所）；初级中学114所（其中：九年一贯制学校14所）；特殊教育学校2所；小学702所，小学教学点234个；幼儿园548所（其中：教育部门办284所，其他部门办2所，民办262所）。各级各类学校在校学生403384人（其中：女学生201449人，占总在校学生的49.94%；少数民族学生176162人，占在校学生的43.67%；寄宿生193601人，占在校学生的47.99%），毕业学生118653人，招生119553人，预计毕业生87288人。教职工32725人，其中：专任教师25888人。全州各级各类学校占地面积1296.11万平方米，校舍建筑面积502.82万平方米，固定资产总值648947.90万元。
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;小学学龄儿童入学率 99.98％，小学毛入学率113.77%，小学辍学率 0.07%，少数民族学龄儿童入学率 99.98%，残疾儿童入学率 96.33%；初中入学率 99.88%，初中毛入学率 120.31％，初中辍学率0.56%；学龄前儿童入园（班）率 83.36%，学前一年儿童毛入园率97.87%，学前三年儿童毛入园率 77.24%；高中阶段毛入学率 86.04%；九年义务教育巩固率95.47%。
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;专任教师学历合格率分别为：普通高中 99.09％，中职99.80％，初中99.81％，小学 99.66％，幼儿园 97.04%。
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;学生参加学生体质健康标准测试90595人，其中：优秀29635人，良好35404人，及格24415人，不及格1141人。
+    </p>-->
+</div>
+<div id="right_zj" class="right_content">
+    <label class="label_head">整体统计</label>
+    <div class="chart_div" style="border-top:none">
+        <div id="curve1" class="curve"></div>
+    </div>
+    <div class="chart_div">
+        <div id="curve2" class="curve"></div>
+    </div>
+    <div class="chart_div">
+        <div id="curve3" class="curve"></div>
+    </div>
+    <div class="chart_div">
+        <div id="curve4" class="curve"></div>
+    </div>
+    <script>
+        $(function () {
+            init();
+        });
+        function init() {
+            var dom1 = document.getElementById("curve1");
+            var dom2 = document.getElementById("curve2");
+            var dom3 = document.getElementById("curve3");
+            var dom4 = document.getElementById("curve4");
+            var chart1,chart2,chart3,chart4;
+            var y='bottom';
+            ///学校数量情况
+            var legendData1 = ["普通高（完）中","初级中学","特殊教育学校","小学","幼儿园"];
+            var series1 = [];
+            series1.push({ value: 22, name:'普通高（完）中'});
+            series1.push({ value: 114, name:'初级中学'});
+            series1.push({ value: 2, name:'特殊教育学校'});
+            series1.push({ value: 702, name:'小学'});
+            series1.push({ value: 548, name:'幼儿园'});
+            if (chart1 != null && chart1 != "" && chart1 != undefined) {
+                chart1.dispose();
+            }
+            var title1 = "学校数量";
+            var option1 = getOption(title1,'', legendData1, series1);
+            chart1 = echarts.init(dom1);
+            chart1.setOption(option1, true);
+            function getOption(title,subtitle,legendData,seriesData) {
+                var option = {
+                    title: {
+                        text: title,
+                        subtext: subtitle,
+                        x: 'left',
+                        y: y,
+                        textStyle:{
+                            color: 'red',
+                            fontSize: 16
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        //orient: 'vertical',
+                        left: 'center',
+                        data: legendData
+                    },
+                    series: [
+                        {
+                            name: title,
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['50%', '60%'],
+                            data: seriesData,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                return option;
+            }
+
+            ///教职工情况
+            var option2 = {
+                title : {
+                    text: '教职工情况',
+                    textStyle:{
+                        color: 'red',
+                        fontSize: 16
+                    },
+                    x: 'left',
+                    y: y,
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['教职工','专任教师']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : ['普通高中','普通初中','普通小学','学前教育','特殊教育']
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'教职工',
+                        type:'bar',
+                        data:[4618, 7885, 12932, 4681, 88]
+                    },
+                    {
+                        name:'专任教师',
+                        type:'bar',
+                        data:[3279, 6928, 10961, 3466, 67]
+                    }
+                ]
+            };
+            chart2 = echarts.init(dom2);
+            chart2.setOption(option2, true);
+
+            ///入学率
+            var option3 = {
+                title : {
+                    text: '入学率(%)',
+                    textStyle:{
+                        color: 'red',
+                        fontSize: 16
+                    },
+                    x: 'left',
+                    y: y
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['入学率']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : ['学龄前儿童','残疾儿童','小学','初中','高中']
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'入学率',
+                        type:'bar',
+                        data:[83.36, 96.33, 99.98, 99.88, 86.04]
+                    }
+                ]
+            };
+            chart3 = echarts.init(dom3);
+            chart3.setOption(option3, true);
+
+            ///体质健康标准测试
+            var legendData4 = ["优秀","良好","及格","不及格"];
+            var series4 = [];
+            series4.push({ value: 29635, name:'优秀'});
+            series4.push({ value: 35404, name:'良好'});
+            series4.push({ value: 24415, name:'及格'});
+            series4.push({ value: 1141, name:'不及格'});
+            if (chart4 != null && chart4 != "" && chart4 != undefined) {
+                chart4.dispose();
+            }
+            var title4 = "体质健康标准测试";
+            var subtitle="总共90595人";
+            var option4 = getOption(title4,subtitle,legendData4, series4);
+            chart4 = echarts.init(dom4);
+            chart4.setOption(option4, true);
+        }
+
+    </script>
+</div>
+
+
+<div id="cesiumContainer"></div>
+<div id='loadingbar' class="spinner">
+    <div class="spinner-container container1">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container2">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container3">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+</div>
+<div id="toolbar" class="param-container tool-bar" style="left: 25%">
+    <button type="button" id="distance" class="button black">测距</button>
+    <button type="button" id="area" class="button black">测面</button>
+    <button type="button" id="height" class="button black">测高</button>
+    <button type="button" id="clear" class="button black">清除</button>
+    <!--<div style="width: 120px;">
+        <select id="selOpt" class="selectpicker show-tick form-control">
+            <option selected value="1">空间量算</option>
+            <option value="2">贴地量算</option>&lt;!&ndash;贴地量算暂未支持&ndash;&gt;
+        </select>
+    </div>-->
+
+</div>
+
+<script type="text/javascript">
+    function onload(Cesium) {
+        //初始化viewer部件
+        var viewer = new Cesium.Viewer('cesiumContainer',{
+            //创建地形服务提供者的实例，url为SuperMap iServer发布的TIN地形服务
+            terrainProvider : new Cesium.CesiumTerrainProvider({
+                url : URL_CONFIG.ZF_TERRAIN,
+                isSct : true//地形服务源自SuperMap iServer发布时需设置isSct为true
+            })
+        });
+        //添加SuperMap iServer发布的影像服务
+        var layer = viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
+            url : "http://192.168.20.230:8090/iserver/services/map-chuxiongmap/rest/maps/chuxiong_map"
+        }));
+        /*var layer_mark = viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
+            url : "http://192.168.20.230:8090/iserver/services/map-tianditu2/rest/maps/%E7%9F%A2%E9%87%8F%E4%B8%AD%E6%96%87%E6%B3%A8%E8%AE%B0_%E7%BB%8F%E7%BA%AC%E5%BA%A6"
+        }));*/
+        var scene = viewer.scene;
+        var camera = scene.camera;
+        camera.setView({ // 先定位，开始渲染定位区域的倾斜
+            destination: new Cesium.Cartesian3(-1264146.0146822683,6074827.922035524,2975416.9179696655),//-2623004.4174251584, 3926981.958360567, 4287374.829655093
+            orientation: {
+                heading: 3.1176756223501716,//Cesium.Math.toRadians(20.0),//4.39611370540786,
+                pitch: -1.492170742907093,//Cesium.Math.toRadians(-90.0),//-0.43458664812464143,
+                roll: 3.141592653589896//2.0174972803488345e-11
+            }
+        });
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        //监听鼠标移动事件，监视三维场景位置和视角变化
+        //得到当前三维场景的椭球体
+        var ellipsoid = scene.globe.ellipsoid;
+        var entity = viewer.entities.add({
+            label : {
+                show : false
+            }
+        });
+        var longitudeString = null;
+        var latitudeString = null;
+        var height = null;
+        var cartesian = null;
+        handler.setInputAction(function(movement) {
+            //通过指定的椭球或者地图对应的坐标系，将鼠标的二维坐标转换为对应椭球体三维坐标
+            cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+            if (cartesian) {
+                //将笛卡尔坐标转换为地理坐标
+                var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+                //将弧度转为度的十进制度表示
+                longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
+                latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
+                //获取相机高度
+                height = Math.ceil(viewer.camera.positionCartographic.height);
+                entity.position = cartesian;
+                entity.label.show = true;
+                //entity.label.text = longitudeString + '\n ' + latitudeString + "\n" + height  ;
+            }else {
+                entity.label.show = false;
+            }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        //设置鼠标滚动事件的处理函数，这里负责监听高度值变化
+        handler.setInputAction(function(wheelment) {
+            //height = Math.ceil(viewer.camera.positionCartographic.height);
+            //entity.position = cartesian;
+            //entity.label.show = true;
+            //entity.label.text = '(' + longitudeString + ', ' + latitudeString + "," + height + ')' ;
+            var x=viewer.scene.camera.position.x;
+            var y=viewer.scene.camera.position.y;
+            var z=viewer.scene.camera.position.z;
+            var heading=viewer.scene.camera.heading;
+            var pitch=viewer.scene.camera.pitch;
+            var roll=viewer.scene.camera.roll;
+            var str='x:'+x+'\ny:'+y+'\nz:'+z+'\nheading:'+heading+'\npitch:'+pitch+'\nroll:'+roll;
+            console.log(str);
+        }, Cesium.ScreenSpaceEventType.WHEEL);
+        /*viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
+            url : URL_CONFIG.ZF_IMG
+        }));*/
+
+        //————————————————————————倾斜模型单体化——————————————————————————————————————————————————————————————————————————————
+        // 方法一，通过数据服务的形式添加单体化标识面
+        // (推荐使用)
+        var dataServiceUrl = 'http://192.168.20.230:8090/iserver/services/data-dantihua_chuxiong/rest/data/featureResults.rjson?returnContent=true'; // 数据服务URL
+        var dataSourceName = 'chuxiong_data'; // 数据源名称
+        var dataSetName = 'dantihua_chuxiong'; // 数据集名称
+        // 加载倾斜摄影图层
+        var promise = scene.addS3MTilesLayerByScp('http://192.168.20.230:8090/iserver/services/3D-scene_temp_chuxiong/rest/realspace/datas/temp_chuxiong/config', {
+            name: 'oblique photography'
+        });
+        promise.then(function (obliqueLayers) {
+            /*camera.setView({ // 先定位，开始渲染定位区域的倾斜
+                destination: new Cesium.Cartesian3(-2623168.642794086,3927800.4874035753,4287911.419377832),//-2623004.4174251584, 3926981.958360567, 4287374.829655093
+                orientation: {
+                    heading: 6.2831400401710145,//Cesium.Math.toRadians(20.0),//4.39611370540786,
+                    pitch: -1.5707913461500325,//Cesium.Math.toRadians(-90.0),//-0.43458664812464143,
+                    roll: 0//2.0174972803488345e-11
+                }
+            });*/
+            //var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+
+            //监视鼠标单击事件，监视单体化查询
+            handler.setInputAction(function (e) {
+                /*var x=viewer.scene.camera.position.x;
+                var y=viewer.scene.camera.position.y;
+                var z=viewer.scene.camera.position.z;
+                var heading=viewer.scene.camera.heading;
+                var pitch=viewer.scene.camera.pitch;
+                var roll=viewer.scene.camera.roll;
+                console.log('x:'+x+'\ny:'+y+'\nz:'+z+'\nheading:'+heading+'\npitch:'+pitch+'\nroll:'+roll);*/
+                // 首先移除之前添加标识实体
+                viewer.entities.removeById('identify-area');
+                // 获取点击位置笛卡尔坐标
+                var position = scene.pickPosition(e.position);
+                // 从笛卡尔坐标获取经纬度
+                var cartographic = Cesium.Cartographic.fromCartesian(position);
+                var longitude = Cesium.Math.toDegrees(cartographic.longitude);
+                var latitude = Cesium.Math.toDegrees(cartographic.latitude);
+
+                var queryPoint = { // 查询点对象
+                    x: longitude,
+                    y: latitude
+                };
+
+                queryByPoint(queryPoint);
+
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        });
+
+        // 通过点击查询用于表示单体化的面要素，添加到场景中高亮显示。
+        function queryByPoint(queryPoint) {
+            var queryObj = {
+                "getFeatureMode": "SPATIAL",
+                "spatialQueryMode": "INTERSECT",
+                "datasetNames": [dataSourceName + ":" + dataSetName],
+                "geometry": {
+                    id: 0,
+                    parts: [1],
+                    points: [queryPoint],
+                    type: "POINT"
+                }
+            };
+
+            queryObjJSON = JSON.stringify(queryObj); // 转化为JSON字符串作为查询参数
+
+            $.ajax({
+                type: "post",
+                url: dataServiceUrl,
+                data: queryObjJSON,
+                success: function (result) {
+                    var resultObj = JSON.parse(result);
+                    if (resultObj.featureCount > 0) {
+                        addClapFeature(resultObj.features[0]);
+                        //alert(resultObj.features[0].fieldValues[3]);
+                        //console.log(resultObj.features[0]);
+                    }
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            })
+        }
+
+        // 将数据服务查询到的要素添加到场景中高亮显示，表示选中效果。
+        function addClapFeature(feature) {
+            var lonLatArr = getLonLatArray(feature.geometry.points);
+            viewer.entities.add({
+                id: 'identify-area',
+                name: '单体化标识面',
+                polygon: {
+                    hierarchy: Cesium.Cartesian3.fromDegreesArray(lonLatArr),
+                    material: new Cesium.Color(1.0, 0.0, 0.0, 0.3),
+                },
+                clampToS3M: true // 贴在S3M模型表面
+            });
+        }
+
+        // 得到[经度,纬度,经度,纬度...]形式的数组，用于构造面。
+        function getLonLatArray(points) {
+            var point3D = [];
+            points.forEach(function (point) {
+                point3D.push(point.x);
+                point3D.push(point.y);
+            });
+            return point3D;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------空间测量---------------------------------------------------------------
+        var clampMode = 0; // 空间模式
+        var scene = viewer.scene;
+        var widget = viewer.cesiumWidget;
+        var handlerDis,handlerArea,handlerHeight;
+
+        //初始化测量距离
+        handlerDis = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.Distance,clampMode);
+        //注册测距功能事件
+        handlerDis.measureEvt.addEventListener(function(result){
+            var dis = Number(result.distance);
+            var distance = dis > 1000 ? (dis/1000).toFixed(2) + 'km' : dis.toFixed(2) + 'm';
+            handlerDis.disLabel.text = '距离:' + distance;
+
+        });
+        handlerDis.activeEvt.addEventListener(function(isActive){
+            if(isActive == true){
+                viewer.enableCursorStyle = false;
+                viewer._element.style.cursor = '';
+                $('body').removeClass('measureCur').addClass('measureCur');
+            }
+            else{
+                viewer.enableCursorStyle = true;
+                $('body').removeClass('measureCur');
+            }
+        });
+
+        //初始化测量面积
+        handlerArea = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.Area,clampMode);
+        handlerArea.measureEvt.addEventListener(function(result){
+            var mj = Number(result.area);
+            var area = mj > 1000000 ? (mj/1000000).toFixed(2) + 'km²' : mj.toFixed(2) + '㎡'
+            handlerArea.areaLabel.text = '面积:' + area;
+        });
+        handlerArea.activeEvt.addEventListener(function(isActive){
+            if(isActive == true){
+                viewer.enableCursorStyle = false;
+                viewer._element.style.cursor = '';
+                $('body').removeClass('measureCur').addClass('measureCur');
+            }
+            else{
+                viewer.enableCursorStyle = true;
+                $('body').removeClass('measureCur');
+            }
+        });
+
+        //初始化测量高度
+        handlerHeight = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.DVH);
+        handlerHeight.measureEvt.addEventListener(function(result){
+            var distance = result.distance > 1000 ? (result.distance/1000).toFixed(2) + 'km' : result.distance + 'm';
+            var vHeight = result.verticalHeight > 1000 ? (result.verticalHeight/1000).toFixed(2) + 'km' : result.verticalHeight + 'm';
+            var hDistance = result.horizontalDistance > 1000 ? (result.horizontalDistance/1000).toFixed(2) + 'km' : result.horizontalDistance + 'm';
+            handlerHeight.disLabel.text = '空间距离:' + distance;
+            handlerHeight.vLabel.text = '垂直高度:' + vHeight;
+            handlerHeight.hLabel.text = '水平距离:' + hDistance;
+        });
+        handlerHeight.activeEvt.addEventListener(function(isActive){
+            if(isActive == true){
+                viewer.enableCursorStyle = false;
+                viewer._element.style.cursor = '';
+                $('body').removeClass('measureCur').addClass('measureCur');
+            }
+            else{
+                viewer.enableCursorStyle = true;
+                $('body').removeClass('measureCur');
+            }
+        });
+
+        $('#distance').click(function(){
+            deactiveAll();
+            handlerDis && handlerDis.activate();
+        });
+
+        $('#area').click(function(){
+            deactiveAll();
+            handlerArea && handlerArea.activate();
+        });
+        $('#height').click(function(){
+            deactiveAll();
+            handlerHeight && handlerHeight.activate();
+        });
+        $('#clear').click(function(){
+            clearAll();
+        });
+
+        /*$('#selOpt').change(function() {
+            var value = $(this).val();
+            if(value == '1'){
+                clampMode = 0;
+                handlerArea.clampMode = 0;
+                handlerDis.clampMode = 0;
+            }
+            else{
+                clampMode = 1;
+                handlerArea.clampMode = 1;
+                handlerDis.clampMode = 1;
+            }
+        });*/
+
+
+        if(!scene.pickPositionSupported){
+            alert('不支持深度拾取,量算功能无法使用(无法进行鼠标交互绘制)！');
+        }
+
+        function clearAll(){
+            handlerDis  && handlerDis.clear();
+            handlerArea  && handlerArea.clear();
+            handlerHeight && handlerHeight.clear();
+        }
+
+        function deactiveAll(){
+            handlerDis  && handlerDis.deactivate();
+            handlerArea  && handlerArea.deactivate();
+            handlerHeight && handlerHeight.deactivate();
+        }
+
+        $('#loadingbar').remove();
+
+
+
+    }
+    </script>
+</body>
+</html>
