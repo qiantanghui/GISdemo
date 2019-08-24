@@ -98,6 +98,19 @@
         $(function () {
             init();
         });
+        function randomNum(minNum,maxNum){
+            switch(arguments.length){
+                case 1:
+                    return parseInt(Math.random()*minNum+1,10);
+                    break;
+                case 2:
+                    return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
         function init() {
             var dom1 = document.getElementById("curve1");
             var dom2 = document.getElementById("curve2");
@@ -334,15 +347,24 @@
         });
         //添加SuperMap iServer发布的影像服务
         var layer = viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
-            url : "http://192.168.20.230:8090/iserver/services/map-chuxiongmap/rest/maps/chuxiong_map"
+            url : "http://192.168.20.230:8090/iserver/services/map-chuxiongmap2/rest/maps/chuxiong_map"
         }));
         /*var layer_mark = viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
             url : "http://192.168.20.230:8090/iserver/services/map-tianditu2/rest/maps/%E7%9F%A2%E9%87%8F%E4%B8%AD%E6%96%87%E6%B3%A8%E8%AE%B0_%E7%BB%8F%E7%BA%AC%E5%BA%A6"
         }));*/
         var scene = viewer.scene;
         var camera = scene.camera;
+        var ellipsoid=viewer.scene.globe.ellipsoid;
+
+        var cartographic=Cesium.Cartographic.fromDegrees(101.5285469065921,25.062943758213788,1967.1816489156336);
+
+        var cartesian3=ellipsoid.cartographicToCartesian(cartographic);
+
+        var x=cartesian3.x;
+        var y=cartesian3.y;
+        var z=cartesian3.z;
         camera.setView({ // 先定位，开始渲染定位区域的倾斜
-            destination: new Cesium.Cartesian3(-1264146.0146822683,6074827.922035524,2975416.9179696655),//-2623004.4174251584, 3926981.958360567, 4287374.829655093
+            destination: new Cesium.Cartesian3(x,y,z),//-2623004.4174251584, 3926981.958360567, 4287374.829655093
             orientation: {
                 heading: 3.1176756223501716,//Cesium.Math.toRadians(20.0),//4.39611370540786,
                 pitch: -1.492170742907093,//Cesium.Math.toRadians(-90.0),//-0.43458664812464143,
@@ -382,18 +404,18 @@
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //设置鼠标滚动事件的处理函数，这里负责监听高度值变化
         handler.setInputAction(function(wheelment) {
-            //height = Math.ceil(viewer.camera.positionCartographic.height);
+            height = Math.ceil(viewer.camera.positionCartographic.height);
             //entity.position = cartesian;
             //entity.label.show = true;
             //entity.label.text = '(' + longitudeString + ', ' + latitudeString + "," + height + ')' ;
-            var x=viewer.scene.camera.position.x;
+            /*var x=viewer.scene.camera.position.x;
             var y=viewer.scene.camera.position.y;
             var z=viewer.scene.camera.position.z;
             var heading=viewer.scene.camera.heading;
             var pitch=viewer.scene.camera.pitch;
             var roll=viewer.scene.camera.roll;
-            var str='x:'+x+'\ny:'+y+'\nz:'+z+'\nheading:'+heading+'\npitch:'+pitch+'\nroll:'+roll;
-            console.log(str);
+            var str='x:'+x+'\ny:'+y+'\nz:'+z+'\nheading:'+heading+'\npitch:'+pitch+'\nroll:'+roll;*/
+            console.log(height);
         }, Cesium.ScreenSpaceEventType.WHEEL);
         /*viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
             url : URL_CONFIG.ZF_IMG
