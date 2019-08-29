@@ -60,7 +60,9 @@
            top: 1px;
            width: 20%;
        }
-
+        #tab {
+            height: 100%;
+        }
     </style>
 
 </head>
@@ -535,7 +537,14 @@
     <button type="button" id="clear" class="button black">清除</button>
 
 </div>
-
+<div id="bubble" class="bubble" style="bottom:0;left:82%;display:none;" >
+    <div id="tools" style="text-align : right">
+        <span  style="color: rgb(95, 74, 121);padding: 5px;position: absolute;left: 10px;top: 4px;">对象属性</span>
+        <span class="fui-export" id="bubblePosition" style="color: darkgrey; padding:5px" title="停靠"></span>
+        <span  class="fui-cross" title="关闭" id="close" style="color: darkgrey;padding:5px"></span>
+    </div>
+    <div style="overflow-y:scroll;height:150px" id="tableContainer"><table id="tab"></table></div>
+</div>
 <script type="text/javascript">
 
     function draw(feature, viewer) {
@@ -634,6 +643,43 @@
                 roll: 6.283185307179572
             }
         });
+
+        /* 气泡相关 1/4 start */
+        var scenePosition = null; // 记录在场景中点击的笛卡尔坐标点
+        var dock = false; // 是否停靠
+        var infoboxContainer = document.getElementById("bubble");
+        viewer.customInfobox = infoboxContainer;
+        var table = document.getElementById("tab"); // 气泡内的表格
+        $("#bubblePosition").click(function(){ // 停靠状态切换
+            dock = !dock;
+            if($("#bubblePosition").hasClass("fui-export")){
+                $("#bubble").removeClass("bubble").addClass("float");
+                $("#bubblePosition").removeClass("fui-export").addClass("fui-bubble");
+                $("#bubblePosition")[0].title = "悬浮";
+                $("#bubble").css({'left' : '82%','bottom' : '45%'});
+                $("#tableContainer").css({'height':'350px'});
+            } else if($("#bubblePosition").hasClass("fui-bubble")){
+                $("#bubble").removeClass("float").addClass("bubble");
+                $("#bubblePosition").removeClass("fui-bubble").addClass("fui-export");
+                $("#bubblePosition")[0].title = "停靠";
+                $("#tableContainer").css({'height':'150px'});
+            }
+        });
+        $("#close").click(function(){ // 关闭气泡
+            $("#bubble").hide();
+        });
+        scene.postRender.addEventListener(function(){ // 每一帧都去计算气泡的正确位置
+            if (scenePosition && !dock) {
+                var canvasHeight = scene.canvas.height;
+                var windowPosition = new Cesium.Cartesian2();
+                Cesium.SceneTransforms.wgs84ToWindowCoordinates(scene, scenePosition, windowPosition);
+                infoboxContainer.style.bottom = (canvasHeight - windowPosition.y + 45) + 'px';
+                infoboxContainer.style.left = (windowPosition.x - 70) + 'px';
+                infoboxContainer.style.visibility = "visible";
+            }
+        });
+        /* 气泡相关 1/4 end */
+
         var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
         //监听鼠标移动事件，监视三维场景位置和视角变化
         //得到当前三维场景的椭球体
@@ -740,6 +786,40 @@
                 var height = Math.ceil(viewer.camera.positionCartographic.height);
                 console.log('相机高度：' + height);
 
+                // 获取点击位置笛卡尔坐标
+                var position = scene.pickPosition(e.position);
+                if (!position) {
+                    position = Cesium.Cartesian3.fromDegrees(0, 0, 0);
+                }
+                scenePosition = position; // 气泡相关 2/4
+                var pick = viewer.scene.pick(e.position);
+                if(Cesium.defined(pick)) {
+                    //alert(pick.id.id);
+                    $("#bubble").show();
+                    for (i = table.rows.length-1;i > -1;i--){
+                        table.deleteRow(i);
+                    }
+                    var newRow = table.insertRow();
+                    var cell1 = newRow.insertCell();
+                    var cell2 = newRow.insertCell();
+                    cell1.innerHTML = pick.id.id;
+                    cell2.innerHTML =schoolDesc[pick.id.id];
+                    if(pick.id.id=="楚雄市职业高级中学"){
+                        //var x=Cesium.Math.toDegrees(101.5285469065921);
+                        //var y=Cesium.Math.toDegrees(25.062943758213788);
+                        camera.flyTo({ // 先定位，开始渲染定位区域的倾斜
+                            destination: new Cesium.Cartesian3(-1154792.424076683,5662999.35469963,2700618.880969361),
+                            orientation: {
+                                heading: 0.11061735787823235,
+                                pitch: -0.604471083265584,
+                                roll: 8.374358984042374e-10
+                            }
+                        });
+                    }
+                }else {
+                    $("#bubble").hide();
+                }
+
                 // 首先移除之前添加标识实体
                 viewer.entities.removeById('identify-area');
                 // 获取点击位置笛卡尔坐标
@@ -756,23 +836,7 @@
 
                 queryByPoint(queryPoint);
 
-                var pick = viewer.scene.pick(e.position);
-                if(Cesium.defined(pick)) {
-                    //$("#right_zj").attr("style","display:none;");
-                    //alert(pick.id.id);
-                    if(pick.id.id=="楚雄市紫溪中学"){
-                        //var x=Cesium.Math.toDegrees(101.5285469065921);
-                        //var y=Cesium.Math.toDegrees(25.062943758213788);
-                        camera.flyTo({ // 先定位，开始渲染定位区域的倾斜
-                            destination: new Cesium.Cartesian3(-1156297.7149757873,5664949.491175459,2697847.367383554),
-                            orientation: {
-                                heading: 0.13699589888724795,
-                                pitch: -0.8449076034129268,
-                                roll: 0.00005445388784597327
-                            }
-                        });
-                    }
-                }
+
 
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
@@ -814,6 +878,7 @@
 
         // 将数据服务查询到的要素添加到场景中高亮显示，表示选中效果。
         function addClapFeature(feature) {
+            console.log(feature);
             var lonLatArr = getLonLatArray(feature.geometry.points);
             viewer.entities.add({
                 id: 'identify-area',
@@ -824,6 +889,16 @@
                 },
                 clampToS3M: true // 贴在S3M模型表面
             });
+
+            $("#bubble").show();
+            for (i = table.rows.length-1;i > -1;i--){
+                table.deleteRow(i);
+            }
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell();
+            var cell2 = newRow.insertCell();
+            cell1.innerHTML = feature.fieldValues[11];
+            cell2.innerHTML =feature.fieldValues[12];
         }
 
         // 得到[经度,纬度,经度,纬度...]形式的数组，用于构造面。

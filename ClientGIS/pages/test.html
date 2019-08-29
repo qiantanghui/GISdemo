@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <title>楚雄教育体育GIS系统</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>动态单体化</title>
     <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <link href="../css/pretty.css" rel="stylesheet">
     <script src = '../js/jquery.min.3.2.1.js'></script>
@@ -14,497 +15,13 @@
     <script src="../js/leaflet/leaflet.js"></script>
     <script src="../js/leaflet/iclient9-leaflet.min.js"></script>
     <script type="text/javascript" src="../js/require.min.js" data-main="../js/main"></script>
-
     <style>
-        .right_content{
-            /*border:#06C 2px solid;*/
-            position:fixed;
-            width:20%;
-            height:100%;
-            z-index:100;
-            top: 0px;
-            right:0px;
-            text-align:center;
-            background-color:rgba(0,0,0,0.3);
+        #tab {
+             height: 100%;
         }
-        .label_head{
-            font-size: 20px;
-            font-family: \@微软雅黑;
-            font-weight: 800;
-            color: #ffffff;
-            width: 100%;
-
-        }
-        p{
-            color: #8CD4F5;
-            font-size: 16px;
-            text-align: left;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .chart_div{
-            height:24%;
-            width:100%;
-            border-top: solid 4px #8CD4F5;
-        }
-        .curve{
-            width:100%;
-            height:95%;
-            padding-top:10px;
-        }
-
-        .cesium-infoBox {
-            left: 2px;
-            position: fixed;
-            top: 1px;
-            width: 20%;
-        }
-
     </style>
-
 </head>
 <body>
-
-<!--<div id="left_zj" class="left_content" >-->
-
-</div>
-<div id="right_zj" class="right_content">
-    <label id="lab" class="label_head">楚雄州</label>
-    <div class="chart_div" style="border-top:none">
-        <div id="curve1" class="curve"></div>
-    </div>
-    <div class="chart_div">
-        <div id="curve2" class="curve"></div>
-    </div>
-    <div class="chart_div">
-        <div id="curve3" class="curve"></div>
-    </div>
-    <div class="chart_div">
-        <div id="curve4" class="curve"></div>
-    </div>
-    <script>
-        var schoolDesc={
-            "禄丰县仁兴中学": "禄丰县仁兴中学，创建于1932年，原名为云南省立楚雄中学，其前身为始建于明嘉靖四十年（公元1561年）的龙泉书院。全校现有初、高中51个教学班，在校学生近3000人。教职工219人。",
-            "姚安县前场镇前场中学": "姚安县前场镇前场中学，位于姚安县前场镇，1961年被确定为省属重点中学，1962年更名为云南省楚雄第一中学，1993年评定为省一级完全中学；1997年晋升为省一级二等完全中学；2007年晋升为省一级一等完全中学。",
-            "双柏县爱尼山乡中学": "双柏县爱尼山乡中学，位于双柏县爱尼山乡，凤光秀丽，景色宜人。1941年3月3日在文庙创办，2008年2月晋升为“云南省一级三等完全中学”。学校现有占地面积106亩，建筑面积46215平方米。",
-            "元谋县姜驿中学": "元谋县姜驿中学，位于元谋县，学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。专任教师中有省级骨干教师6人，市级骨干教师3人；市级教育科研学术带头人1人，学科带头人2人；有县级教育科研学术带头人4人，学科带头人12人；有校级骨干教师78人，师资力量雄厚。",
-            "元谋县培英中学": "元谋县培英中学，位于元谋县，创建于2004年1月，坐落于县城北郊，属与一中联合办学的公办全日制高级完全中学．占地211亩，政府投资1个亿，设计规模为能容纳90个教学班在校学生4500名的省一级高级完全中学，总建筑面积5万余平方米。",
-            "楚雄市西舍路镇初级中学": "楚雄市西舍路镇初级中学，位于楚雄市西舍路镇，学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。先后有西南师范大学、四川师范大学、哈尔滨师范大学、吉林师范大学、云南师范大学等高校的100余名应届毕业生与我校签订了意向性聘用协议书。至2007年9月，我校在职教职工将有230余人，在校学生4500余人。",
-            "南华县沙桥初级中学": "南华县沙桥初级中学，位于南华县，1941年3月3日在文庙创办，2008年2月晋升为“云南省一级三等完全中学”。学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。",
-            "楚雄市东华镇新街初级中学": "楚雄市东华镇新街初级中学，位于楚雄市东华镇新街，其前身为始建于明嘉靖四十年（公元1561年）的龙泉书院。全校现有初、高中51个教学班，在校学生近3000人。教职工219人。学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。",
-            "双柏县安龙堡中学": "双柏县安龙堡中学，位于双柏县，1993年评定为省一级完全中学；1997年晋升为省一级二等完全中学；2007年晋升为省一级一等完全中学。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。专任教师中有省级骨干教师6人，市级骨干教师3人；市级教育科研学术带头人1人，学科带头人2人；有县级教育科研学术带头人4人，学科带头人12人；有校级骨干教师78人，师资力量雄厚。",
-            "南华县罗武庄初级中学": "南华县罗武庄初级中学，学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。先后有西南师范大学、四川师范大学、哈尔滨师范大学、吉林师范大学、云南师范大学等高校的100余名应届毕业生与我校签订了意向性聘用协议书。至2007年9月，我校在职教职工将有230余人，在校学生4500余人。",
-            "武定县白路中学": "武定县白路中学，1941年3月3日在文庙创办，2008年2月晋升为“云南省一级三等完全中学”。学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。",
-            "大姚县六苴镇初级中学": "大姚县六苴镇初级中学，学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。",
-            "楚雄市大地基乡初级中学": "楚雄市大地基乡初级中学，坐落于县城北郊，属与一中联合办学的公办全日制高级完全中学．占地211亩，政府投资1个亿，设计规模为能容纳90个教学班在校学生4500名的省一级高级完全中学，总建筑面积5万余平方米。",
-            "大姚县铁锁初级中学": "大姚县铁锁初级中学，学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。",
-            "大姚县三岔河镇初级中学": "大姚县三岔河镇初级中学，学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。专任教师中有省级骨干教师6人，市级骨干教师3人；市级教育科研学术带头人1人，学科带头人2人；",
-            "楚雄市苍岭镇初级中学": "楚雄市苍岭镇初级中学，学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。",
-            "牟定县凤屯初级中学": "牟定县凤屯初级中学，学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。",
-            "双柏县法脿镇雨龙中学": "双柏县法脿镇雨龙中学，秉承“以诚载信，以德承教，以人为本，面向未来，全面育人”的办学理念，注重引入先进的办学经验，采用科学的管理模式，积极构建自己的办学方略。",
-            "姚安县大河口中学": "姚安县大河口中学，坐落于县城北郊，属与一中联合办学的公办全日制高级完全中学．占地211亩，政府投资1个亿，设计规模为能容纳90个教学班在校学生4500名的省一级高级完全中学。",
-            "双柏县大麦地中学": "双柏县大麦地中学，坐落于县城北郊，学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。",
-            "禄丰县民族中学": "禄丰县民族中学，各项硬件设施——教学楼、综合楼、实验楼、图书馆、信息中心、礼堂、餐厅、风雨操场、足球场、学生宿舍、洗澡塘等一应俱全，物理、化学、生物实验设备，多媒体教室，微机室，远程教育设备，广播系统，图书装备等均按省一级量标配置。",
-            "南华县兔街镇初级中学": "南华县兔街镇初级中学，学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。",
-            "禄丰县土官镇中学": "禄丰县土官镇中学，学校现有高中教学班63个，在校学生4341人，教职工267人。学校现有占地面积106亩，建筑面积46215平方米。",
-            "武定县发窝中学": "武定县发窝中学，我校高考再摘县文理状元桂冠，文科状元赫丽娟593分、理科状元杨伟638分，一本上线318人，占全县一本上线率的66.8%。（全县一本上线476人），本科上线1218人，上线率达86.2%。全校上线率100%。",
-
-        };
-        $(function () {
-            init();
-        });
-        function init() {
-            var dom1 = document.getElementById("curve1");
-            var dom2 = document.getElementById("curve2");
-            var dom3 = document.getElementById("curve3");
-            var dom4 = document.getElementById("curve4");
-            var chart1,chart2,chart3,chart4;
-            var y='bottom';
-            ///学校数量情况
-            var legendData1 = ["普通高（完）中","初级中学","特殊教育学校","小学","幼儿园"];
-            var series1 = [];
-            series1.push({ value: 22, name:'普通高（完）中'});
-            series1.push({ value: 114, name:'初级中学'});
-            series1.push({ value: 2, name:'特殊教育学校'});
-            series1.push({ value: 702, name:'小学'});
-            series1.push({ value: 548, name:'幼儿园'});
-            if (chart1 != null && chart1 != "" && chart1 != undefined) {
-                chart1.dispose();
-            }
-            var title1 = "学校数量";
-            var option1 = getOption(title1,'', legendData1, series1);
-            chart1 = echarts.init(dom1);
-            chart1.setOption(option1, true);
-            function getOption(title,subtitle,legendData,seriesData) {
-                var option = {
-                    title: {
-                        text: title,
-                        subtext: subtitle,
-                        x: 'left',
-                        y: y,
-                        textStyle:{
-                            color: 'red',
-                            fontSize: 16
-                        }
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        //orient: 'vertical',
-                        left: 'center',
-                        data: legendData
-                    },
-                    series: [
-                        {
-                            name: title,
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: seriesData,
-                            itemStyle: {
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                }
-                            }
-                        }
-                    ]
-                };
-                return option;
-            }
-
-            ///教职工情况
-            var option2 = {
-                title : {
-                    text: '教职工情况',
-                    textStyle:{
-                        color: 'red',
-                        fontSize: 16
-                    },
-                    x: 'left',
-                    y: y,
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['教职工','专任教师']
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        mark : {show: true},
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
-                    }
-                },
-                calculable : true,
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : ['普通高中','普通初中','普通小学','学前教育','特殊教育']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'教职工',
-                        type:'bar',
-                        data:[4618, 7885, 12932, 4681, 88]
-                    },
-                    {
-                        name:'专任教师',
-                        type:'bar',
-                        data:[3279, 6928, 10961, 3466, 67]
-                    }
-                ]
-            };
-            chart2 = echarts.init(dom2);
-            chart2.setOption(option2, true);
-
-            ///入学率
-            var option3 = {
-                title : {
-                    text: '入学率(%)',
-                    textStyle:{
-                        color: 'red',
-                        fontSize: 16
-                    },
-                    x: 'left',
-                    y: y
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['入学率']
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        mark : {show: true},
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
-                    }
-                },
-                calculable : true,
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : ['学龄前儿童','残疾儿童','小学','初中','高中']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'入学率',
-                        type:'bar',
-                        data:[83.36, 96.33, 99.98, 99.88, 86.04]
-                    }
-                ]
-            };
-            chart3 = echarts.init(dom3);
-            chart3.setOption(option3, true);
-
-            ///体质健康标准测试
-            var legendData4 = ["优秀","良好","及格","不及格"];
-            var series4 = [];
-            series4.push({ value: 29635, name:'优秀'});
-            series4.push({ value: 35404, name:'良好'});
-            series4.push({ value: 24415, name:'及格'});
-            series4.push({ value: 1141, name:'不及格'});
-            if (chart4 != null && chart4 != "" && chart4 != undefined) {
-                chart4.dispose();
-            }
-            var title4 = "体质健康标准测试";
-            var subtitle="总共90595人";
-            var option4 = getOption(title4,subtitle,legendData4, series4);
-            chart4 = echarts.init(dom4);
-            chart4.setOption(option4, true);
-        }
-        function randomNum(maxNum, minNum, decimalNum) {
-            var max = 0, min = 0;
-            minNum <= maxNum ? (min = minNum, max = maxNum) : (min = maxNum, max = minNum);
-            switch (arguments.length) {
-                case 1:
-                    return Math.floor(Math.random() * (max + 1));
-                    break;
-                case 2:
-                    return Math.floor(Math.random() * (max - min + 1) + min);
-                    break;
-                case 3:
-                    return (Math.random() * (max - min) + min).toFixed(decimalNum);
-                    break;
-                default:
-                    return Math.random();
-                    break;
-            }
-        }
-        function refresh(xzqmc) {
-            $("#lab").text(xzqmc);
-            var dom1 = document.getElementById("curve1");
-            var dom2 = document.getElementById("curve2");
-            var dom3 = document.getElementById("curve3");
-            var dom4 = document.getElementById("curve4");
-            var chart1,chart2,chart3,chart4;
-            var y='bottom';
-            ///学校数量情况
-            var legendData1 = ["普通高（完）中","初级中学","特殊教育学校","小学","幼儿园"];
-            var series1 = [];
-            series1.push({ value: randomNum(1,22), name:'普通高（完）中'});
-            series1.push({ value: randomNum(1,114), name:'初级中学'});
-            series1.push({ value: randomNum(1,2), name:'特殊教育学校'});
-            series1.push({ value: randomNum(1,702), name:'小学'});
-            series1.push({ value: randomNum(1,548), name:'幼儿园'});
-            if (chart1 != null && chart1 != "" && chart1 != undefined) {
-                chart1.dispose();
-            }
-            var title1 = "学校数量";
-            var option1 = getOption(title1,'', legendData1, series1);
-            chart1 = echarts.init(dom1);
-            chart1.setOption(option1, true);
-            function getOption(title,subtitle,legendData,seriesData) {
-                var option = {
-                    title: {
-                        text: title,
-                        subtext: subtitle,
-                        x: 'left',
-                        y: y,
-                        textStyle:{
-                            color: 'red',
-                            fontSize: 16
-                        }
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        //orient: 'vertical',
-                        left: 'center',
-                        data: legendData
-                    },
-                    series: [
-                        {
-                            name: title,
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: seriesData,
-                            itemStyle: {
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                }
-                            }
-                        }
-                    ]
-                };
-                return option;
-            }
-
-            ///教职工情况
-            var option2 = {
-                title : {
-                    text: '教职工情况',
-                    textStyle:{
-                        color: 'red',
-                        fontSize: 16
-                    },
-                    x: 'left',
-                    y: y,
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['教职工','专任教师']
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        mark : {show: true},
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
-                    }
-                },
-                calculable : true,
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : ['普通高中','普通初中','普通小学','学前教育','特殊教育']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'教职工',
-                        type:'bar',
-                        data:[randomNum(1000,5000), randomNum(3000,8000), randomNum(5000,13000), randomNum(1000,5000), randomNum(1,100)]
-                    },
-                    {
-                        name:'专任教师',
-                        type:'bar',
-                        data:[randomNum(1000,5000), randomNum(3000,8000), randomNum(5000,13000), randomNum(1000,5000), randomNum(1,100)]
-                    }
-                ]
-            };
-            chart2 = echarts.init(dom2);
-            chart2.setOption(option2, true);
-
-            ///入学率
-            var option3 = {
-                title : {
-                    text: '入学率(%)',
-                    textStyle:{
-                        color: 'red',
-                        fontSize: 16
-                    },
-                    x: 'left',
-                    y: y
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['入学率']
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        mark : {show: true},
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
-                    }
-                },
-                calculable : true,
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : ['学龄前儿童','残疾儿童','小学','初中','高中']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'入学率',
-                        type:'bar',
-                        data:[randomNum(80,100,2), randomNum(80,100,2), randomNum(80,100,2), randomNum(80,100,2), randomNum(80,100,2)]
-                    }
-                ]
-            };
-            chart3 = echarts.init(dom3);
-            chart3.setOption(option3, true);
-
-            ///体质健康标准测试
-            var legendData4 = ["优秀","良好","及格","不及格"];
-            var series4 = [];
-            series4.push({ value: randomNum(5000,29635), name:'优秀'});
-            series4.push({ value: randomNum(10000,35404), name:'良好'});
-            series4.push({ value: randomNum(3000,24415), name:'及格'});
-            series4.push({ value: randomNum(100,1141), name:'不及格'});
-            if (chart4 != null && chart4 != "" && chart4 != undefined) {
-                chart4.dispose();
-            }
-            var title4 = "体测情况统计";
-            var subtitle="总共90595人";
-            var option4 = getOption(title4,"",legendData4, series4);
-            chart4 = echarts.init(dom4);
-            chart4.setOption(option4, true);
-        }
-    </script>
-</div>
-
-
 <div id="cesiumContainer"></div>
 <div id='loadingbar' class="spinner">
     <div class="spinner-container container1">
@@ -526,211 +43,66 @@
         <div class="circle4"></div>
     </div>
 </div>
-<blockquote id="bubble" class="bubble">
-    <img id="myimg" src="../images/home_banner.jpg" width="50%" height="auto">
-    <h2 id="title"></h2>
-    <p id="des" class="word"></p>
-    <audio controls="controls">
-        <source src="../media/song.mp3" type="audio/mpeg" />
-    </audio>
-</blockquote>
-<div id="toolbar" class="param-container tool-bar" style="left: 25%;">
-    <button type="button" id="distance" class="button black">测距</button>
-    <button type="button" id="area" class="button black">测面</button>
-    <button type="button" id="height" class="button black">测高</button>
-    <button type="button" id="clear" class="button black">清除</button>
-
-    <!--<div style="width: 120px;">
-        <select id="selOpt" class="selectpicker show-tick form-control">
-            <option selected value="1">空间量算</option>
-            <option value="2">贴地量算</option>&lt;!&ndash;贴地量算暂未支持&ndash;&gt;
-        </select>
-    </div>-->
-
+<div id="bubble" class="bubble" style="bottom:0;left:82%;display:none;" >
+    <div id="tools" style="text-align : right">
+        <span  style="color: rgb(95, 74, 121);padding: 5px;position: absolute;left: 10px;top: 4px;">对象属性</span>
+        <span class="fui-export" id="bubblePosition" style="color: darkgrey; padding:5px" title="停靠"></span>
+        <span  class="fui-cross" title="关闭" id="close" style="color: darkgrey;padding:5px"></span>
+    </div>
+    <div style="overflow-y:scroll;height:150px" id="tableContainer"><table id="tab"></table></div>
 </div>
-
-<script type="text/javascript">
-
-    function draw(feature, viewer) {
-        var points = feature.geometry.coordinates;
-        var line_points=[];
-        $.each(points[0], function (i, point) {
-            $.each(point, function (j, p) {
-                if (j%100 == 0)
-                    line_points.push(p[0],p[1]);
-            });
-        });
-        viewer.entities.removeById("select_xian");
-        var hightentity =  viewer.entities.add({
-            id:"select_xian",
-            name: 'corridor',
-            corridor:{
-                positions: Cesium.Cartesian3.fromDegreesArray(line_points),
-                width:1000, //宽度必须设置
-                material: Cesium.Color.RED
-            }
-        });
-        viewer.zoomTo(hightentity);
-        var xzqmc=feature.properties.NAME;
-        refresh(xzqmc);
-    }
-
-    function queryFeature(lat, lng, viewer) {
-        var url = 'http://192.168.20.230:8090/iserver/services/data-chuxiongmap/rest/data';
-        //map.removeLayer(resultLayer);//清空之前的图层
-        var marker1 = L.marker([lat, lng]);
-        var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
-            datasetNames: ["xingzhengjiexian:县界_polygon"],
-            geometry: marker1,
-            spatialQueryMode: "INTERSECT"
-        });
-        L.supermap
-            .featureService(url)
-            .getFeaturesByGeometry(geometryParam, function (serviceResult) {
-                if (serviceResult && serviceResult.result && serviceResult.result.features) {
-                    var feature = serviceResult.result.features.features[0];
-                    draw(feature, viewer);
-                }
-
-            });
-    }
-    function loadSchoolMark(viewer) {
-        $.getJSON("../data/中学.json", function (data){
-            var features = data.features;
-            viewer.entities.removeAll();
-            for(var i = 0;i < features.length;i++ ){
-                var feature = features[i];
-                var properties = feature.properties;
-
-                var des = '<table class="cesium-infoBox-defaultTable"><tbody>' + '<tr><th>所在区县</th><td>' + properties.XZQHMC + '</td></tr>';
-                des += '<tr><th>学校概况</th><td>' + schoolDesc[feature.properties.NAME]+ '</td></tr>' + "</tbody></table>";
-                viewer.entities.add({
-                    id:feature.properties.NAME,
-                    position : Cesium.Cartesian3.fromDegrees(parseFloat(feature.geometry.coordinates[0]),parseFloat(feature.geometry.coordinates[1]),500),
-
-                    billboard :{
-                        image : '../img/markerbig_select.png',
-                        width:30,
-                        height:40,
-
-                    },
-                    name : feature.properties.NAME,
-                    description: des
-                });
-            }
-        })
-    }
+<div id='toolbar' class="param-container tool-bar">
+    <p>提示：</p>
+    <span>点击房屋面以查看动态单体化效果</span>
+</div>
+<script>
     function onload(Cesium) {
-        //初始化viewer部件
-        var viewer = new Cesium.Viewer('cesiumContainer',{
-            //创建地形服务提供者的实例，url为SuperMap iServer发布的TIN地形服务
-            terrainProvider : new Cesium.CesiumTerrainProvider({
-                url : URL_CONFIG.ZF_TERRAIN,
-                isSct : true//地形服务源自SuperMap iServer发布时需设置isSct为true
-            })
-        });
-        //添加SuperMap iServer发布的影像服务
-        var layer = viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
-            url : "http://192.168.20.230:8090/iserver/services/map-chuxiongmap/rest/maps/chuxiong_map"
-        }));
-        /*var layer_mark = viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
-            url : "http://192.168.20.230:8090/iserver/services/map-tianditu2/rest/maps/%E7%9F%A2%E9%87%8F%E4%B8%AD%E6%96%87%E6%B3%A8%E8%AE%B0_%E7%BB%8F%E7%BA%AC%E5%BA%A6"
-        }));*/
+        var viewer = new Cesium.Viewer('cesiumContainer');
         var scene = viewer.scene;
         var camera = scene.camera;
-        loadSchoolMark(viewer);
-
-
-        camera.flyTo({ // 定位到楚雄州全景
-            destination: new Cesium.Cartesian3(-1249053.5646795568,6048514.817059478,2645373.279934732),
-            orientation: {
-                heading: 0.017912298010756444,
-                pitch: -1.0039701755829165,
-                roll: 6.283185307179572
+        /* 气泡相关 1/4 start */
+        var scenePosition = null; // 记录在场景中点击的笛卡尔坐标点
+        var dock = false; // 是否停靠
+        var infoboxContainer = document.getElementById("bubble");
+        var table = document.getElementById("tab"); // 气泡内的表格
+        $("#bubblePosition").click(function(){ // 停靠状态切换
+            dock = !dock;
+            if($("#bubblePosition").hasClass("fui-export")){
+                $("#bubble").removeClass("bubble").addClass("float");
+                $("#bubblePosition").removeClass("fui-export").addClass("fui-bubble");
+                $("#bubblePosition")[0].title = "悬浮";
+                $("#bubble").css({'left' : '82%','bottom' : '45%'});
+                $("#tableContainer").css({'height':'350px'});
+            } else if($("#bubblePosition").hasClass("fui-bubble")){
+                $("#bubble").removeClass("float").addClass("bubble");
+                $("#bubblePosition").removeClass("fui-bubble").addClass("fui-export");
+                $("#bubblePosition")[0].title = "停靠";
+                $("#tableContainer").css({'height':'150px'});
             }
         });
-        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-        //监听鼠标移动事件，监视三维场景位置和视角变化
-        //得到当前三维场景的椭球体
-        var ellipsoid = scene.globe.ellipsoid;
-        var entity = viewer.entities.add({
-            label : {
-                show : false
+        $("#close").click(function(){ // 关闭气泡
+            $("#bubble").hide();
+        });
+        scene.postRender.addEventListener(function(){ // 每一帧都去计算气泡的正确位置
+            if (scenePosition && !dock) {
+                var canvasHeight = scene.canvas.height;
+                var windowPosition = new Cesium.Cartesian2();
+                Cesium.SceneTransforms.wgs84ToWindowCoordinates(scene, scenePosition, windowPosition);
+                infoboxContainer.style.bottom = (canvasHeight - windowPosition.y + 45) + 'px';
+                infoboxContainer.style.left = (windowPosition.x - 70) + 'px';
+                infoboxContainer.style.visibility = "visible";
             }
         });
-        var longitudeString = null;
-        var latitudeString = null;
-        var height = null;
-        var cartesian = null;
-        handler.setInputAction(function(movement) {
-            //通过指定的椭球或者地图对应的坐标系，将鼠标的二维坐标转换为对应椭球体三维坐标
-            cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
-            if (cartesian) {
-                //将笛卡尔坐标转换为地理坐标
-                var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-                //将弧度转为度的十进制度表示
-                longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
-                latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
-                //获取相机高度
-                height = Math.ceil(viewer.camera.positionCartographic.height);
-                entity.position = cartesian;
-                entity.label.show = true;
-                //entity.label.text = longitudeString + '\n ' + latitudeString + "\n" + height  ;
-            }else {
-                entity.label.show = false;
-            }
-        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-        //设置鼠标滚动事件的处理函数，这里负责监听高度值变化
-        handler.setInputAction(function(wheelment) {
-            //height = Math.ceil(viewer.camera.positionCartographic.height);
-            //entity.position = cartesian;
-            //entity.label.show = true;
-            //entity.label.text = '(' + longitudeString + ', ' + latitudeString + "," + height + ')' ;
-            var x=viewer.scene.camera.position.x;
-            var y=viewer.scene.camera.position.y;
-            var z=viewer.scene.camera.position.z;
-            var heading=viewer.scene.camera.heading;
-            var pitch=viewer.scene.camera.pitch;
-            var roll=viewer.scene.camera.roll;
-            var str='x:'+x+'\ny:'+y+'\nz:'+z+'\nheading:'+heading+'\npitch:'+pitch+'\nroll:'+roll;
-            //console.log(str);
-        }, Cesium.ScreenSpaceEventType.WHEEL);
-        /*viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
-            url : URL_CONFIG.ZF_IMG
-        }));*/
-        //监视鼠标双击事件
-        handler.setInputAction(function (e) {
-
-            // 获取点击位置笛卡尔坐标
-            var position = scene.pickPosition(e.position);
-            // 从笛卡尔坐标获取经纬度
-            var cartographic = Cesium.Cartographic.fromCartesian(position);
-            var longitude = Cesium.Math.toDegrees(cartographic.longitude);
-            var latitude = Cesium.Math.toDegrees(cartographic.latitude);
-
-            var height = Math.ceil(viewer.camera.positionCartographic.height);
-            console.log('相机高度：' + height);
-            if (height < 400000) {
-                //var pickedObjects = scene.drillPick(e.position,2);
-                queryFeature(latitude, longitude, viewer)
-            }
-
-
-            var pick = viewer.scene.pick(e.position);
-            if(Cesium.defined(pick)) {
-                //$("#right_zj").attr("style","display:none;");
-                //alert(pick.id.id);
-            }
-
-        }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-
-
-
-
-
-        //————————————————————————倾斜模型单体化——————————————————————————————————————————————————————————————————————————————
+        /* 气泡相关 1/4 end */
         // 方法一，通过数据服务的形式添加单体化标识面
         // (推荐使用)
+        /*var dataServiceUrl = 'http://www.supermapol.com/realspace/services/data-dynamicDTH/rest/data/featureResults.rjson?returnContent=true'; // 数据服务URL
+        var dataSourceName = '铁岭矢量面'; // 数据源名称
+        var dataSetName = 'New_Region3D_1'; // 数据集名称
+        // 加载倾斜摄影图层
+        var promise = scene.addS3MTilesLayerByScp('http://www.supermapol.com/realspace/services/3D-dynamicDTH/rest/realspace/datas/Config%20-%201/config', {
+            name: 'oblique photography'
+        });*/
         var dataServiceUrl = 'http://192.168.20.230:8090/iserver/services/data-dantihua_chuxiong/rest/data/featureResults.rjson?returnContent=true'; // 数据服务URL
         var dataSourceName = 'chuxiong_data'; // 数据源名称
         var dataSetName = 'dantihua_chuxiong'; // 数据集名称
@@ -738,23 +110,51 @@
         var promise = scene.addS3MTilesLayerByScp('http://192.168.20.230:8090/iserver/services/3D-scene_temp_chuxiong/rest/realspace/datas/temp_chuxiong/config', {
             name: 'oblique photography'
         });
-
         promise.then(function (obliqueLayers) {
+            /*camera.setView({ // 先定位，开始渲染定位区域的倾斜
+                destination: new Cesium.Cartesian3(-2623004.4174251584, 3926981.958360567, 4287374.829655093),
+                orientation: {
+                    heading: 4.39611370540786,
+                    pitch: -0.43458664812464143,
+                    roll: 2.0174972803488345e-11
+                }
+            });*/
+            camera.flyTo({ // 先定位，开始渲染定位区域的倾斜
+                destination: new Cesium.Cartesian3(-1156297.7149757873,5664949.491175459,2697847.367383554),
+                orientation: {
+                    heading: 0.13699589888724795,
+                    pitch: -0.8449076034129268,
+                    roll: 0.00005445388784597327
+                }
+            });
 
-            //var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-
-            //监视鼠标单击事件，监视单体化查询
+            var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
             handler.setInputAction(function (e) {
-                var x=viewer.scene.camera.position.x;
-                var y=viewer.scene.camera.position.y;
-                var z=viewer.scene.camera.position.z;
-                var heading=viewer.scene.camera.heading;
-                var pitch=viewer.scene.camera.pitch;
-                var roll=viewer.scene.camera.roll;
-                console.log('x:'+x+'\ny:'+y+'\nz:'+z+'\nheading:'+heading+'\npitch:'+pitch+'\nroll:'+roll);
-                var height = Math.ceil(viewer.camera.positionCartographic.height);
-                console.log('相机高度：' + height);
+                // 获取点击位置笛卡尔坐标
+                var position = scene.pickPosition(e.position);
+                if (!position) {
+                    position = Cesium.Cartesian3.fromDegrees(0, 0, 0);
+                }
+                scenePosition = position; // 气泡相关 2/4
+                var pick = viewer.scene.pick(e.position);
+                if(Cesium.defined(pick)) {
+                    /* 气泡相关 4/4 start */
+                    $("#bubble").show();
+                    for (i = table.rows.length-1;i > -1;i--){
+                        table.deleteRow(i);
+                    }
+                    var newRow = table.insertRow();
+                    var cell1 = newRow.insertCell();
+                    var cell2 = newRow.insertCell();
+                    cell1.innerHTML = "名称";
+                    cell2.innerHTML = "禄丰县仁兴中学，创建于1932年，原名为云南省立楚雄中学，其前身为始建于明嘉靖四十年（公元1561年）的龙泉书院。全校现有初、高中51个教学班，在校学生近3000人。工219人。";
+                    if(pick.id.id=="identify-area"){
 
+                    }
+                }
+
+
+                /* 气泡相关 4/4 end */
                 // 首先移除之前添加标识实体
                 viewer.entities.removeById('identify-area');
                 // 获取点击位置笛卡尔坐标
@@ -771,26 +171,13 @@
 
                 queryByPoint(queryPoint);
 
-                var pick = viewer.scene.pick(e.position);
-                if(Cesium.defined(pick)) {
-                    //$("#right_zj").attr("style","display:none;");
-                    //alert(pick.id.id);
-                    if(pick.id.id=="楚雄市紫溪中学"){
-                        //var x=Cesium.Math.toDegrees(101.5285469065921);
-                        //var y=Cesium.Math.toDegrees(25.062943758213788);
-                        camera.flyTo({ // 先定位，开始渲染定位区域的倾斜
-                            destination: new Cesium.Cartesian3(-1156297.7149757873,5664949.491175459,2697847.367383554),
-                            orientation: {
-                                heading: 0.13699589888724795,
-                                pitch: -0.8449076034129268,
-                                roll: 0.00005445388784597327
-                            }
-                        });
-                    }
-                }
+
 
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
+            // 去除加载动画
+            $('#toolbar').show();
+            $('#loadingbar').remove();
         });
 
         // 通过点击查询用于表示单体化的面要素，添加到场景中高亮显示。
@@ -807,7 +194,7 @@
                 }
             };
 
-            var queryObjJSON = JSON.stringify(queryObj); // 转化为JSON字符串作为查询参数
+            queryObjJSON = JSON.stringify(queryObj); // 转化为JSON字符串作为查询参数
 
             $.ajax({
                 type: "post",
@@ -817,8 +204,6 @@
                     var resultObj = JSON.parse(result);
                     if (resultObj.featureCount > 0) {
                         addClapFeature(resultObj.features[0]);
-                        //alert(resultObj.features[0].fieldValues[3]);
-                        //console.log(resultObj.features[0]);
                     }
                 },
                 error: function (msg) {
@@ -850,127 +235,6 @@
             });
             return point3D;
         }
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //---------------------------------空间测量---------------------------------------------------------------
-        var clampMode = 0; // 空间模式
-        var scene = viewer.scene;
-        var widget = viewer.cesiumWidget;
-        var handlerDis,handlerArea,handlerHeight;
-
-        //初始化测量距离
-        handlerDis = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.Distance,clampMode);
-        //注册测距功能事件
-        handlerDis.measureEvt.addEventListener(function(result){
-            var dis = Number(result.distance);
-            var distance = dis > 1000 ? (dis/1000).toFixed(2) + 'km' : dis.toFixed(2) + 'm';
-            handlerDis.disLabel.text = '距离:' + distance;
-
-        });
-        handlerDis.activeEvt.addEventListener(function(isActive){
-            if(isActive == true){
-                viewer.enableCursorStyle = false;
-                viewer._element.style.cursor = '';
-                $('body').removeClass('measureCur').addClass('measureCur');
-            }
-            else{
-                viewer.enableCursorStyle = true;
-                $('body').removeClass('measureCur');
-            }
-        });
-
-        //初始化测量面积
-        handlerArea = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.Area,clampMode);
-        handlerArea.measureEvt.addEventListener(function(result){
-            var mj = Number(result.area);
-            var area = mj > 1000000 ? (mj/1000000).toFixed(2) + 'km²' : mj.toFixed(2) + '㎡'
-            handlerArea.areaLabel.text = '面积:' + area;
-        });
-        handlerArea.activeEvt.addEventListener(function(isActive){
-            if(isActive == true){
-                viewer.enableCursorStyle = false;
-                viewer._element.style.cursor = '';
-                $('body').removeClass('measureCur').addClass('measureCur');
-            }
-            else{
-                viewer.enableCursorStyle = true;
-                $('body').removeClass('measureCur');
-            }
-        });
-
-        //初始化测量高度
-        handlerHeight = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.DVH);
-        handlerHeight.measureEvt.addEventListener(function(result){
-            var distance = result.distance > 1000 ? (result.distance/1000).toFixed(2) + 'km' : result.distance + 'm';
-            var vHeight = result.verticalHeight > 1000 ? (result.verticalHeight/1000).toFixed(2) + 'km' : result.verticalHeight + 'm';
-            var hDistance = result.horizontalDistance > 1000 ? (result.horizontalDistance/1000).toFixed(2) + 'km' : result.horizontalDistance + 'm';
-            handlerHeight.disLabel.text = '空间距离:' + distance;
-            handlerHeight.vLabel.text = '垂直高度:' + vHeight;
-            handlerHeight.hLabel.text = '水平距离:' + hDistance;
-        });
-        handlerHeight.activeEvt.addEventListener(function(isActive){
-            if(isActive == true){
-                viewer.enableCursorStyle = false;
-                viewer._element.style.cursor = '';
-                $('body').removeClass('measureCur').addClass('measureCur');
-            }
-            else{
-                viewer.enableCursorStyle = true;
-                $('body').removeClass('measureCur');
-            }
-        });
-
-        $('#distance').click(function(){
-            deactiveAll();
-            handlerDis && handlerDis.activate();
-        });
-
-        $('#area').click(function(){
-            deactiveAll();
-            handlerArea && handlerArea.activate();
-        });
-        $('#height').click(function(){
-            deactiveAll();
-            handlerHeight && handlerHeight.activate();
-        });
-        $('#clear').click(function(){
-            clearAll();
-        });
-
-        /*$('#selOpt').change(function() {
-            var value = $(this).val();
-            if(value == '1'){
-                clampMode = 0;
-                handlerArea.clampMode = 0;
-                handlerDis.clampMode = 0;
-            }
-            else{
-                clampMode = 1;
-                handlerArea.clampMode = 1;
-                handlerDis.clampMode = 1;
-            }
-        });*/
-
-
-        if(!scene.pickPositionSupported){
-            alert('不支持深度拾取,量算功能无法使用(无法进行鼠标交互绘制)！');
-        }
-
-        function clearAll(){
-            handlerDis  && handlerDis.clear();
-            handlerArea  && handlerArea.clear();
-            handlerHeight && handlerHeight.clear();
-        }
-
-        function deactiveAll(){
-            handlerDis  && handlerDis.deactivate();
-            handlerArea  && handlerArea.deactivate();
-            handlerHeight && handlerHeight.deactivate();
-        }
-
-        $('#loadingbar').remove();
-
 
 
     }

@@ -611,20 +611,35 @@
         $('#loadingbar').remove();
         // 方法一，通过数据服务的形式添加单体化标识面
         // (推荐使用)
-        var dataServiceUrl = 'http://www.supermapol.com/realspace/services/data-dynamicDTH/rest/data/featureResults.rjson?returnContent=true'; // 数据服务URL
+        /*var dataServiceUrl = 'http://www.supermapol.com/realspace/services/data-dynamicDTH/rest/data/featureResults.rjson?returnContent=true'; // 数据服务URL
         var dataSourceName = '铁岭矢量面'; // 数据源名称
         var dataSetName = 'New_Region3D_1'; // 数据集名称
         // 加载倾斜摄影图层
         var promise = scene.addS3MTilesLayerByScp('http://www.supermapol.com/realspace/services/3D-dynamicDTH/rest/realspace/datas/Config%20-%201/config', {
             name: 'oblique photography'
+        });*/
+        var dataServiceUrl = 'http://192.168.20.230:8090/iserver/services/data-dantihua_chuxiong/rest/data/featureResults.rjson?returnContent=true'; // 数据服务URL
+        var dataSourceName = 'chuxiong_data'; // 数据源名称
+        var dataSetName = 'dantihua_chuxiong'; // 数据集名称
+        // 加载倾斜摄影图层
+        var promise = scene.addS3MTilesLayerByScp('http://192.168.20.230:8090/iserver/services/3D-scene_temp_chuxiong/rest/realspace/datas/temp_chuxiong/config', {
+            name: 'oblique photography'
         });
         promise.then(function (obliqueLayers) {
-            camera.setView({ // 先定位，开始渲染定位区域的倾斜
+            /*camera.setView({ // 先定位，开始渲染定位区域的倾斜
                 destination: new Cesium.Cartesian3(-2623004.4174251584, 3926981.958360567, 4287374.829655093),
                 orientation: {
                     heading: 4.39611370540786,
                     pitch: -0.43458664812464143,
                     roll: 2.0174972803488345e-11
+                }
+            });*/
+            camera.flyTo({ // 先定位，开始渲染定位区域的倾斜
+                destination: new Cesium.Cartesian3(-1156297.7149757873,5664949.491175459,2697847.367383554),
+                orientation: {
+                    heading: 0.13699589888724795,
+                    pitch: -0.8449076034129268,
+                    roll: 0.00005445388784597327
                 }
             });
 
