@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e7f129a9-dd63-4845-a06c-d38c3a617eec" name="Default Changelist" comment="" />
+    <list default="true" id="e7f129a9-dd63-4845-a06c-d38c3a617eec" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/fonts/FontAwesome.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/download/download.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/download/download.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/download/download.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/download/download.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/lato/lato-bold.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fonts/lato/lato-regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap-select.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/tooltip.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/chuxiong_gis.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/chuxiong_gis.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,16 +54,16 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\GISdemo\ClientGIS\js" />
+      <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\GISdemo\ClientGIS" />
       <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\ClientGIS" />
       <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\ClientGIS\data" />
       <recent name="E:\WebStormProjects\GISdemo\ClientGIS\data" />
-      <recent name="E:\WebStormProjects\GISdemo\ClientGIS\img" />
-      <recent name="E:\WebStormProjects\GISdemo\ClientGIS\js\leaflet" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -65,6 +95,7 @@
       <workItem from="1566783119262" duration="275000" />
       <workItem from="1566783446936" duration="21042000" />
       <workItem from="1566871101988" duration="36523000" />
+      <workItem from="1567044358432" duration="19280000" />
     </task>
     <task id="LOCAL-00001" summary="1.空间查询">
       <created>1566731990999</created>
@@ -73,7 +104,21 @@
       <option name="project" value="LOCAL" />
       <updated>1566731990999</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="整理">
+      <created>1567044626418</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1567044626418</updated>
+    </task>
+    <task id="LOCAL-00003" summary="更新">
+      <created>1567062904788</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1567062904788</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -94,6 +139,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1.空间查询" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.空间查询" />
+    <MESSAGE value="整理" />
+    <MESSAGE value="更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新" />
   </component>
 </project>
