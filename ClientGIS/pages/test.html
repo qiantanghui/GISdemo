@@ -13,7 +13,7 @@
     <script src="../js/slider.js"></script>
     <script src="../js/leaflet/leaflet.js"></script>
     <script src="../js/leaflet/iclient9-leaflet.min.js"></script>
-	<script type="text/javascript" src="../js/require.min.js" data-main="../js/main"></script>
+    <script type="text/javascript" src="../js/require.min.js" data-main="../js/main"></script>
 
     <style>
         .right_content{
@@ -54,12 +54,12 @@
             padding-top:10px;
         }
 
-       .cesium-infoBox {
-           left: 2px;
-           position: fixed;
-           top: 1px;
-           width: 20%;
-       }
+        .cesium-infoBox {
+            left: 2px;
+            position: fixed;
+            top: 1px;
+            width: 20%;
+        }
 
     </style>
 
@@ -109,9 +109,7 @@
             "南华县兔街镇初级中学": "南华县兔街镇初级中学，学校现有高中教学班63个，在校学生4341人，教职工267人。其中，特级教师3人，高级教师46人，中学一级教师61人，中学二级教师144人，工勤人员9人。",
             "禄丰县土官镇中学": "禄丰县土官镇中学，学校现有高中教学班63个，在校学生4341人，教职工267人。学校现有占地面积106亩，建筑面积46215平方米。",
             "武定县发窝中学": "武定县发窝中学，我校高考再摘县文理状元桂冠，文科状元赫丽娟593分、理科状元杨伟638分，一本上线318人，占全县一本上线率的66.8%。（全县一本上线476人），本科上线1218人，上线率达86.2%。全校上线率100%。",
-            "楚雄市职业高级中学": "楚雄市职业高级中学，坐落于县城北郊，学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。",
-            "楚雄市紫溪中学": "楚雄市紫溪中学，坐落于县城北郊，学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。",
-            "元谋县羊街中学": "双柏县大麦地中学，坐落于县城北郊，学校现有占地面积106亩，建筑面积46215平方米。凤光秀丽，景色宜人。学校于2005年9月1日开始招生，首届学生476名，编为8个教学班。"
+
         };
         $(function () {
             init();
@@ -528,11 +526,26 @@
         <div class="circle4"></div>
     </div>
 </div>
+<blockquote id="bubble" class="bubble">
+    <img id="myimg" src="../images/home_banner.jpg" width="50%" height="auto">
+    <h2 id="title"></h2>
+    <p id="des" class="word"></p>
+    <audio controls="controls">
+        <source src="../media/song.mp3" type="audio/mpeg" />
+    </audio>
+</blockquote>
 <div id="toolbar" class="param-container tool-bar" style="left: 25%;">
     <button type="button" id="distance" class="button black">测距</button>
     <button type="button" id="area" class="button black">测面</button>
     <button type="button" id="height" class="button black">测高</button>
     <button type="button" id="clear" class="button black">清除</button>
+
+    <!--<div style="width: 120px;">
+        <select id="selOpt" class="selectpicker show-tick form-control">
+            <option selected value="1">空间量算</option>
+            <option value="2">贴地量算</option>&lt;!&ndash;贴地量算暂未支持&ndash;&gt;
+        </select>
+    </div>-->
 
 </div>
 
@@ -544,7 +557,7 @@
         $.each(points[0], function (i, point) {
             $.each(point, function (j, p) {
                 if (j%100 == 0)
-                line_points.push(p[0],p[1]);
+                    line_points.push(p[0],p[1]);
             });
         });
         viewer.entities.removeById("select_xian");
@@ -594,10 +607,12 @@
                 viewer.entities.add({
                     id:feature.properties.NAME,
                     position : Cesium.Cartesian3.fromDegrees(parseFloat(feature.geometry.coordinates[0]),parseFloat(feature.geometry.coordinates[1]),500),
+
                     billboard :{
                         image : '../img/markerbig_select.png',
                         width:30,
-                        height:40
+                        height:40,
+
                     },
                     name : feature.properties.NAME,
                     description: des
@@ -959,6 +974,6 @@
 
 
     }
-    </script>
+</script>
 </body>
 </html>
