@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-treeview.js"></script>
+    <link rel="stylesheet" href="../js/lib/theme-chalk/index.css">
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/lib/index.js"></script>
+    <style>
+        .left_content{
+            /*border:#06C 2px solid;*/
+            position:fixed;
+            width:20%;
+            height:100%;
+            z-index:100;
+            top: 0px;
+            left:0px;
+            background-color:rgba(0,0,0,0.5);
+            color: white;
+        }
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            margin-bottom: -1px;
+            background-color:transparent;
+            border: none;
+        }
+    </style>
+
+
+
+</head>
+<body>
+<div id="tree1"></div>
+<script>
+
+    $('#tree1').treeview({
+        data:defaultData
+    })
+</script>
+</body>
+</html>

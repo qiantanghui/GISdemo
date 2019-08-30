@@ -2,34 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7f129a9-dd63-4845-a06c-d38c3a617eec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/fonts/FontAwesome.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/download/download.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/download/download.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/download/download.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/download/download.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontawesome-webfont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/glyphicons/flat-ui-icons-regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/iconfonts/iconfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/lato/lato-bold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/lato/lato-regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap-select.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/tooltip.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap-treeview.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/vue.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/perspective.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/treemenu.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/中学概况.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/中学概况.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/chuxiong_gis.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/chuxiong_gis.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -95,7 +73,7 @@
       <workItem from="1566783119262" duration="275000" />
       <workItem from="1566783446936" duration="21042000" />
       <workItem from="1566871101988" duration="36523000" />
-      <workItem from="1567044358432" duration="19280000" />
+      <workItem from="1567044358432" duration="47085000" />
     </task>
     <task id="LOCAL-00001" summary="1.空间查询">
       <created>1566731990999</created>
@@ -118,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567062904788</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="坡度分析">
+      <created>1567071834226</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1567071834226</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +126,19 @@
     <MESSAGE value="1.空间查询" />
     <MESSAGE value="整理" />
     <MESSAGE value="更新" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新" />
+    <MESSAGE value="坡度分析" />
+    <option name="LAST_COMMIT_MESSAGE" value="坡度分析" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/pages/perspective.html</url>
+          <line>107</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -8,7 +8,7 @@
     <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link href="../css/pretty.css" rel="stylesheet">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src = '../js/jquery.min.3.2.1.js'></script>
     <script src="../js/echarts.js"></script>
     <script src="../js/config.js"></script>
@@ -17,11 +17,30 @@
     <script src="../js/leaflet/iclient9-leaflet.min.js"></script>
 
     <script src="../js/tooltip.js"></script>
-    <script src="../js/bootstrap-select.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/bootstrap-treeview.js"></script>
 	<script type="text/javascript" src="../js/require.min.js" data-main="../js/main"></script>
 
     <style>
+        .left_content{
+            /*border:#06C 2px solid;*/
+            position:fixed;
+            width:15%;
+            height:100%;
+            z-index:100;
+            top: 0px;
+            left:0px;
+            background-color:rgba(0,0,0,0.3);
+        }
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            margin-bottom: -1px;
+            background-color:transparent;
+            border: none;
+        }
         .right_content{
             /*border:#06C 2px solid;*/
             position:fixed;
@@ -82,11 +101,262 @@
             position: fixed;
         }
     </style>
+
 </head>
 <body>
 
-<!--<div id="left_zj" class="left_content" >-->
+<div id="left_zj" class="left_content" >
+    <div id="tree"></div>
+    <script>
+        var defaultData = [
+            {
+                text: '楚雄州',
+                href: '#',
+                tags: '州',
+                nodes: [
+                    {
+                        text: '楚雄市',
+                        href: '#',
+                        state: {
+                            expanded:false
+                        },
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '楚雄市西舍路镇初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '楚雄市东华镇新街初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '楚雄市大地基乡初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '楚雄市苍岭镇初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '楚雄市职业高级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '楚雄市紫溪中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '禄丰县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '禄丰县仁兴中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '禄丰县民族中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '禄丰县土官镇中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '姚安县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '姚安县前场镇前场中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '姚安县大河口中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '双柏县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '双柏县爱尼山乡中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '双柏县安龙堡中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                            ,
+                            {
+                                text: '双柏县法脿镇雨龙中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                            ,
+                            {
+                                text: '双柏县大麦地中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '元谋县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '元谋县姜驿中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '元谋县培英中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                            ,
+                            {
+                                text: '元谋县羊街中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '南华县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '南华县沙桥初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '南华县罗武庄初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                            ,
+                            {
+                                text: '南华县兔街镇初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '武定县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '武定县白路中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '武定县发窝中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    },
+                    {
+                        text: '大姚县',
+                        href: '#',
+                        tags: '区县',
+                        nodes: [
+                            {
+                                text: '大姚县六苴镇初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '大姚县铁锁初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            },
+                            {
+                                text: '大姚县三岔河镇初级中学',
+                                href: '#',
+                                icon: "glyphicon glyphicon-map-marker",
+                                tags: '学校'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+        $('#tree').treeview({
+            data:defaultData,
+            onNodeSelected:function(event, data) {
+                switch (data.tags) {
+                    case "州":
+                        flyToCX();
+                        refresh(data.text);
+                        break;
+                    case "区县":
+                        queryFeatureBySql(data.text);
+                        break;
+                    case "学校":
+                        flyToSchool();
+                        break;
+                }
 
+            }
+        });
+        $('#tree').treeview('collapseAll', { silent: true });
+
+    </script>
 </div>
 <div id="right_zj" class="right_content">
     <label id="lab" class="label_head">楚雄州</label>
@@ -142,6 +412,18 @@
             var dom4 = document.getElementById("curve4");
             var chart1,chart2,chart3,chart4;
             var y='bottom';
+            if (chart1 != null && chart1 != "" && chart1 != undefined) {
+                chart1.dispose();
+            }
+            if (chart2 != null && chart2 != "" && chart2 != undefined) {
+                chart2.dispose();
+            }
+            if (chart3 != null && chart3 != "" && chart3 != undefined) {
+                chart3.dispose();
+            }
+            if (chart4 != null && chart4 != "" && chart4 != undefined) {
+                chart4.dispose();
+            }
             ///学校数量情况
             var legendData1 = ["普通高（完）中","初级中学","特殊教育学校","小学","幼儿园"];
             var series1 = [];
@@ -150,9 +432,7 @@
             series1.push({ value: 2, name:'特殊教育学校'});
             series1.push({ value: 702, name:'小学'});
             series1.push({ value: 548, name:'幼儿园'});
-            if (chart1 != null && chart1 != "" && chart1 != undefined) {
-                chart1.dispose();
-            }
+
             var title1 = "学校数量";
             var option1 = getOption(title1,'', legendData1, series1);
             chart1 = echarts.init(dom1);
@@ -345,6 +625,18 @@
             var dom4 = document.getElementById("curve4");
             var chart1,chart2,chart3,chart4;
             var y='bottom';
+            if (chart1 != null && chart1 != "" && chart1 != undefined) {
+                chart1.dispose();
+            }
+            if (chart2 != null && chart2 != "" && chart2 != undefined) {
+                chart2.dispose();
+            }
+            if (chart3 != null && chart3 != "" && chart3 != undefined) {
+                chart3.dispose();
+            }
+            if (chart4 != null && chart4 != "" && chart4 != undefined) {
+                chart4.dispose();
+            }
             ///学校数量情况
             var legendData1 = ["普通高（完）中","初级中学","特殊教育学校","小学","幼儿园"];
             var series1 = [];
@@ -353,9 +645,7 @@
             series1.push({ value: randomNum(1,2), name:'特殊教育学校'});
             series1.push({ value: randomNum(1,702), name:'小学'});
             series1.push({ value: randomNum(1,548), name:'幼儿园'});
-            if (chart1 != null && chart1 != "" && chart1 != undefined) {
-                chart1.dispose();
-            }
+
             var title1 = "学校数量";
             var option1 = getOption(title1,'', legendData1, series1);
             chart1 = echarts.init(dom1);
@@ -552,8 +842,7 @@
     <button type="button" id="area" class="button black">测面</button>
     <button type="button" id="height" class="button black">测高</button>
 
-    <button type="button" id="chooseView" class="button black">选取观察位置</button>
-    <button type="button" id="addPoint" class="button black">添加目标点</button>
+    <button type="button" id="perspectiveAnalysis" class="button black">通透分析</button>
 
     <button type="button" id="slopeAnalysis" class="button black">坡度分析</button>
 
@@ -605,7 +894,7 @@
     </div>
 </div>
 <script type="text/javascript">
-
+    var viewer;
     function draw(feature, viewer) {
         var points = feature.geometry.coordinates;
         var line_points=[];
@@ -625,9 +914,32 @@
                 material: Cesium.Color.RED
             }
         });
-        viewer.zoomTo(hightentity);
+        viewer.flyTo(hightentity);
         var xzqmc=feature.properties.NAME;
         refresh(xzqmc);
+    }
+
+    function queryFeatureBySql(xzqmc) {
+        var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+            queryParameter: {
+                name: "县界_polygon@xingzhengjiexian",
+                attributeFilter: "NAME = \'"+xzqmc+"\'"
+            },
+            datasetNames: ["xingzhengjiexian:县界_polygon"]
+        });
+        // 创建SQL查询实例
+        var url = 'http://192.168.20.230:8090/iserver/services/data-chuxiongmap/rest/data';
+        L.supermap.featureService(url).getFeaturesBySQL(sqlParam,function (serviceResult) {
+            // 获取服务器返回的结果
+            console.log(serviceResult.result.features);
+            //var featuers = serviceResult.result.features;
+            if (serviceResult && serviceResult.result && serviceResult.result.features) {
+                var feature = serviceResult.result.features.features[0];
+                if (xzqmc=="禄丰县")
+                    feature = serviceResult.result.features.features[1];
+                draw(feature, viewer);
+            }
+        });
     }
 
     function queryFeature(lat, lng, viewer) {
@@ -673,9 +985,29 @@
             }
         })
     }
+    function flyToCX() {
+        viewer.scene.camera.flyTo({ // 定位到楚雄州全景
+            destination: new Cesium.Cartesian3(-1249053.5646795568,6048514.817059478,2645373.279934732),
+            orientation: {
+                heading: 0.017912298010756444,
+                pitch: -1.0039701755829165,
+                roll: 6.283185307179572
+            }
+        });
+    }
+    function flyToSchool() {
+        viewer.scene.camera.flyTo({ // 定位到楚雄州全景
+            destination: new Cesium.Cartesian3(-1154792.424076683,5662999.35469963,2700618.880969361),
+            orientation: {
+                heading: 0.11061735787823235,
+                pitch: -0.604471083265584,
+                roll: 8.374358984042374e-10
+            }
+        });
+    }
     function onload(Cesium) {
         //初始化viewer部件
-        var viewer = new Cesium.Viewer('cesiumContainer',{
+        viewer = new Cesium.Viewer('cesiumContainer',{
             //创建地形服务提供者的实例，url为SuperMap iServer发布的TIN地形服务
             terrainProvider : new Cesium.CesiumTerrainProvider({
                 url : URL_CONFIG.ZF_TERRAIN2,
@@ -986,8 +1318,6 @@
             return point3D;
         }
 
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //---------------------------------空间测量---------------------------------------------------------------
         var clampMode = 0; // 空间模式
         var scene = viewer.scene;
