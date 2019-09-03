@@ -26,8 +26,9 @@
 </head>
 <body>
 <div id="cesiumContainer"></div>
-<div id="toolba1r" style="position : absolute;left : 15px; top : 15px;display : none;" >
+<div id="toolba1r" style="position : absolute;left : 15px; top : 15px;" >
     <button type="button" id="clear" class="button black">清除</button>
+    <button type="button" id="comeback" class="button black">返回</button>
 </div>
 <div id="split" style="background-image:url('../images/splitShow.gif'); width: 13px;height: 72px;top: 8px" title="功能模块"></div>
 <div id="float" style="background:#95e8f9;display: none;width: 250px;height: 470px;top: 15px;left: 1.5%;opacity: 0.5">
@@ -64,6 +65,9 @@
     </div>
 </div>
 <script type="text/javascript">
+    document.getElementById("comeback").onclick=function () {
+        window.location.href="http://localhost:63342/ClientGIS/pages/chuxiong_gis.html";
+    }
     function onload(Cesium) {
         var viewer = new Cesium.Viewer('cesiumContainer',{
             terrainProvider : new Cesium.CesiumTerrainProvider({

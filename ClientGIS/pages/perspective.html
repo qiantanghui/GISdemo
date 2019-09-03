@@ -7,7 +7,7 @@
     <title>通视分析</title>
     <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <link href="../css/pretty.css" rel="stylesheet">
-    <script src = '../js/jquery.min.3.2.1.js'></script>
+    <script src = '../js/jquery.min.js'></script>
     <script src="../js/config.js"></script>
     <script type="text/javascript" src="../js/require.min.js" data-main="../js/main"></script>
 </head>
@@ -37,8 +37,12 @@
     <button type="button" id="chooseView" class="button black">选取观察位置</button>
     <button type="button" id="addPoint" class="button black">添加目标点</button>
     <button type="button" id="clear" class="button black">清除</button>
+    <button type="button" id="comeback" class="button black">返回</button>
 </div>
 <script type="text/javascript">
+    document.getElementById("comeback").onclick=function () {
+        window.location.href="http://localhost:63342/ClientGIS/pages/chuxiong_gis.html";
+    }
     function onload(Cesium) {
         var viewer = new Cesium.Viewer('cesiumContainer');
         viewer.imageryLayers.addImageryProvider(new Cesium.BingMapsImageryProvider({
@@ -56,7 +60,8 @@
         var sightline = new Cesium.Sightline(scene);
         sightline.couldRemove = false;
 
-        var pointHandler = new Cesium.PointHandler(viewer);
+        //var pointHandler = new Cesium.PointHandler(viewer);
+        var pointHandler=new Cesium.DrawHandler(viewer,Cesium.DrawMode.Point,Cesium.ClampMode.S3mModel);
         var widget = viewer.cesiumWidget;
         try{
             //添加S3M图层
@@ -103,11 +108,12 @@
             pointHandler.activate();
         };
 
-        pointHandler.drawCompletedEvent.addEventListener(function(point){
-            console.log(point);
-            var position = point._position;
+        pointHandler.drawEvt.addEventListener(function(point){
 
+            var position = point.object.position;
+            //var position = point.position._value;
             //将获取的点的位置转化成经纬度
+            console.log(position);
             var cartographic = Cesium.Cartographic.fromCartesian(position);
             var longitude = Cesium.Math.toDegrees(cartographic.longitude);
             var latitude = Cesium.Math.toDegrees(cartographic.latitude);

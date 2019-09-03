@@ -2,13 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7f129a9-dd63-4845-a06c-d38c3a617eec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/js/bootstrap-treeview.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/vue.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/perspective.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/treemenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/Administrator.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/Home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/login2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/login3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/login4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/menu_header.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/title_bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/slopeAnalysis.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/中学概况.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/中学概况.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/chuxiong_gis.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/chuxiong_gis.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/perspective.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/perspective.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/test.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,16 +42,16 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/img" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\GISdemo\ClientGIS\img" />
       <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\GISdemo\ClientGIS\js" />
       <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\GISdemo\ClientGIS" />
       <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\ClientGIS" />
       <recent name="G:\hjdx\楚雄州教育体育局地理信息系统项目\程序\ClientGIS\data" />
-      <recent name="E:\WebStormProjects\GISdemo\ClientGIS\data" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -73,7 +83,10 @@
       <workItem from="1566783119262" duration="275000" />
       <workItem from="1566783446936" duration="21042000" />
       <workItem from="1566871101988" duration="36523000" />
-      <workItem from="1567044358432" duration="47085000" />
+      <workItem from="1567044358432" duration="52441000" />
+      <workItem from="1567401580284" duration="8607000" />
+      <workItem from="1567472764477" duration="3265000" />
+      <workItem from="1567476606726" duration="12822000" />
     </task>
     <task id="LOCAL-00001" summary="1.空间查询">
       <created>1566731990999</created>
@@ -103,7 +116,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567071834226</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="v1.0">
+      <created>1567159409165</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1567159409165</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,18 +147,7 @@
     <MESSAGE value="整理" />
     <MESSAGE value="更新" />
     <MESSAGE value="坡度分析" />
-    <option name="LAST_COMMIT_MESSAGE" value="坡度分析" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/pages/perspective.html</url>
-          <line>107</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="v1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.0" />
   </component>
 </project>
